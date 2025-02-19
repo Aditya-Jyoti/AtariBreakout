@@ -1,4 +1,15 @@
 [settings]
+# display settings
+caption = "Atari Breakout"
+icon = "static/icon.png"
+
+# display resolution
 cell_size = 10
 num_cells_row = 100
 num_cells_col = 50
+
+# game settings
+fps = 60
+
+[colours]
+background = "#FFFFFF"
