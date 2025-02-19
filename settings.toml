@@ -1,0 +1,4 @@
+[settings]
+cell_size = 10
+num_cells_row = 100
+num_cells_col = 50
