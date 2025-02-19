@@ -1,6 +1,8 @@
 import pygame
 import tomllib
 
+from src.Paddle import Paddle
+
 # Load settings from toml file
 with open("settings.toml", "rb") as f:
     f = tomllib.load(f)
@@ -11,6 +13,37 @@ with open("settings.toml", "rb") as f:
 # Main game loop
 def main(screen: pygame.Surface) -> None:
     clock = pygame.time.Clock()
+
+    # Initialise paddle object in the middle wrt x-axis
+    paddle = Paddle(
+        x=(
+            (
+                (
+                    (settings["num_cells_row"] * settings["cell_size"])
+                    + settings["padding"]
+                )
+                // 2
+            )
+            - (
+                (
+                    (settings["brick_cells_col"] * settings["cell_size"])
+                    + settings["padding"]
+                )
+                // 2
+            )
+        ),
+        y=settings["num_cells_col"] * settings["cell_size"]
+        - settings["cell_size"]
+        - settings["padding"],
+        cell_size=settings["cell_size"],
+        cells_col=settings["brick_cells_col"],
+        cells_row=settings["brick_cells_row"],
+        colour=colours["paddle"],
+        speed=settings["paddle_speed"],
+    )
+
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(paddle)
 
     running = True
     while running:
@@ -29,6 +62,7 @@ def main(screen: pygame.Surface) -> None:
                     running = False
                     break
 
+        all_sprites.draw(screen)
         clock.tick(settings["fps"])
         pygame.display.flip()
 
@@ -41,8 +75,8 @@ if __name__ == "__main__":
 
     screen = pygame.display.set_mode(
         (
-            settings["num_cells_row"] * settings["cell_size"],
-            settings["num_cells_col"] * settings["cell_size"],
+            settings["num_cells_row"] * settings["cell_size"] + settings["padding"],
+            settings["num_cells_col"] * settings["cell_size"] + settings["padding"],
         )
     )
     screen.fill(pygame.Color(colours["background"]))
