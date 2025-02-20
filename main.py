@@ -27,7 +27,11 @@ def main(screen: pygame.Surface) -> None:
             )
             - (
                 (
-                    (settings["brick_cells_row"] * settings["paddle_scale"] * settings["cell_size"])
+                    (
+                        settings["brick_cells_row"]
+                        * settings["paddle_scale"]
+                        * settings["cell_size"]
+                    )
                     + settings["padding"]
                 )
                 // 2
@@ -42,6 +46,8 @@ def main(screen: pygame.Surface) -> None:
         colour=colours["paddle"],
         border_colour=colours["background"],
         speed=settings["paddle_speed"],
+        padding=settings["padding"],
+        display_width=settings["num_cells_row"] * settings["cell_size"]
     )
 
     all_sprites = pygame.sprite.Group()
@@ -64,6 +70,8 @@ def main(screen: pygame.Surface) -> None:
     running = True
     while running:
 
+        screen.fill(pygame.Color(colours["background"]))
+
         for event in pygame.event.get():
 
             # Handle quit events
@@ -77,6 +85,12 @@ def main(screen: pygame.Surface) -> None:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
                     running = False
                     break
+        
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+            paddle.move_left()
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+            paddle.move_right()
 
         all_sprites.draw(screen)
         clock.tick(settings["fps"])
