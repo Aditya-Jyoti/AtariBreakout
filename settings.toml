@@ -13,12 +13,16 @@ padding = 10
 fps = 60
 
 # brick sizes
-brick_cells_col = 10
-brick_cells_row = 2
+brick_cells_row = 10
+brick_cells_col = 2
 
 # general settings
 paddle_speed = 5
+paddle_scale = 2
 
 [colours]
 background = "#000000"
 paddle = "#FF9999"
+single_hit_brick = "#99FF99"
+double_hit_brick = "#80DFFF"
+triple_hit_brick = "#FFFF99"
