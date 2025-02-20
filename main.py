@@ -2,6 +2,7 @@ import pygame
 import tomllib
 
 from src.Paddle import Paddle
+from src.Ball import Ball
 from utils.level_generator import generate_level
 
 # Load settings from toml file
@@ -47,11 +48,23 @@ def main(screen: pygame.Surface) -> None:
         border_colour=colours["background"],
         speed=settings["paddle_speed"],
         padding=settings["padding"],
-        display_width=settings["num_cells_row"] * settings["cell_size"]
+        display_width=settings["num_cells_row"] * settings["cell_size"],
+    )
+
+    # Initialize the ball
+    ball = Ball(
+        colour=colours["ball"],
+        x=settings["num_cells_row"] * settings["cell_size"] // 2,
+        y=settings["num_cells_col"] * settings["cell_size"] // 2,
+        radius=settings["ball_radius"],
+        speed=settings["ball_speed"],
+        display_width=settings["num_cells_row"] * settings["cell_size"],
+        display_height=settings["num_cells_col"] * settings["cell_size"],
     )
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(paddle)
+    all_sprites.add(ball)
 
     bricks = generate_level(
         num_cells_row=settings["num_cells_row"],
@@ -85,12 +98,18 @@ def main(screen: pygame.Surface) -> None:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
                     running = False
                     break
-        
+                    
+                if event.key == pygame.K_SPACE and ball.attached_to_paddle:
+                    ball.launch()  # Launch ball on space press
+
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             paddle.move_left()
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             paddle.move_right()
+        
+        ball.update(paddle, bricks) 
 
         all_sprites.draw(screen)
         clock.tick(settings["fps"])

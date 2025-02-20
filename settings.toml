@@ -19,10 +19,13 @@ brick_cells_col = 2
 # general settings
 paddle_speed = 5
 paddle_scale = 2
+ball_speed = 5
+ball_radius = 10
 
 [colours]
 background = "#000000"
 paddle = "#FF9999"
+ball = "#FFFFFF"
 single_hit_brick = "#99FF99"
 double_hit_brick = "#80DFFF"
 triple_hit_brick = "#FFFF99"

@@ -33,6 +33,4 @@ class Paddle(Rectangle):
         if self.rect.x >= self.display_width - self.padding - (
             self.cell_row * self.cell_size
         ):
-            self.rect.x = (
-                self.display_width - (self.cell_row * self.cell_size)
-            )
+            self.rect.x = self.display_width - (self.cell_row * self.cell_size)
